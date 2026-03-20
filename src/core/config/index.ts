@@ -1,2 +1,4 @@
 export * from './cors.config'
 export * from './validation-pipes.config'
+export * from './envValidator'
+export * from './env.schema'

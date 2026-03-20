@@ -4,9 +4,13 @@ import { AuthModule } from 'src/modules/auth/auth.module'
 
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { validateEnv } from './config'
 
 @Module({
-	imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule],
+	imports: [
+		ConfigModule.forRoot({ validate: validateEnv, isGlobal: true }),
+		AuthModule
+	],
 	controllers: [AppController],
 	providers: [AppService]
 })

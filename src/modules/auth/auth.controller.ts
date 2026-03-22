@@ -5,15 +5,15 @@ import {
 	HttpCode,
 	HttpStatus,
 	Post,
+	Req,
 	Res
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ApiOperation } from '@nestjs/swagger'
-import type { Response } from 'express'
+import type { Request, Response } from 'express'
 import { lastValueFrom } from 'rxjs'
 
-import { AuthClientGrpc } from '../auth.grpc'
-
+import { AuthClientGrpc } from './auth.grpc'
 import { SendOtpRequest, VerifyOtpRequest } from './dto'
 
 @Controller('auth')
@@ -60,5 +60,53 @@ export class AuthController {
 		})
 
 		return { accessToken }
+	}
+
+	@ApiOperation({
+		summary: 'Refresh access token',
+		description: 'Renews access token using refresh token from cookies.'
+	})
+	@Post('refresh')
+	@HttpCode(HttpStatus.OK)
+	public async refresh(
+		@Req() req: Request,
+		@Res({ passthrough: true }) res: Response
+	) {
+		const refreshToken = req.cookies.refresh_token
+		const { accessToken, refreshToken: newRefreshToken } =
+			await lastValueFrom(this.client.refresh({ refreshToken }))
+
+		res.cookie('refresh_token', newRefreshToken, {
+			httpOnly: true,
+			secure:
+				this.configService.getOrThrow<string>('NODE_ENV') !==
+				'development',
+			domain: this.configService.getOrThrow<string>('COOKIES_DOMAIN'),
+			sameSite: 'lax',
+			maxAge: 30 * 24 * 60 * 60 * 1000
+		})
+
+		return { accessToken }
+	}
+
+	@ApiOperation({
+		summary: 'Logout',
+		description: 'Clears refresh token from cookies.'
+	})
+	@Post('logout')
+	@HttpCode(HttpStatus.OK)
+	public async logout(@Res({ passthrough: true }) res: Response) {
+		res.clearCookie('refresh_token', {
+			httpOnly: true,
+			secure:
+				this.configService.getOrThrow<string>('NODE_ENV') !==
+				'development',
+			domain: this.configService.getOrThrow<string>('COOKIES_DOMAIN'),
+			sameSite: 'lax',
+			maxAge: 0,
+			expires: new Date(0)
+		})
+
+		return { ok: true }
 	}
 }

@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 
-import { AuthClientGrpc } from '../auth.grpc'
+import { AuthClientGrpc } from './auth.grpc'
 
 import { AuthController } from './auth.controller'
 

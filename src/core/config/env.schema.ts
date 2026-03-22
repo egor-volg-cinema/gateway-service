@@ -20,7 +20,11 @@ export const envSchema = z.object({
 			/^[\w.-]+:\d+$/,
 			'Must be in format host:port (e.g., localhost:50051)'
 		)
-		.default('localhost:50051')
+		.default('localhost:50051'),
+
+	COOKIES_SECRET: z.string().min(1),
+
+	COOKIES_DOMAIN: z.string().default('localhost')
 })
 
 export type Env = z.infer<typeof envSchema>

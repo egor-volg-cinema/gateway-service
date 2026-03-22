@@ -2,6 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import cookieParser from 'cookie-parser'
 
 import { AppModule } from './core/app.module'
 import { getValidationPipesConfig } from './core/config'
@@ -13,6 +14,9 @@ async function bootstrap() {
 
 	const config = app.get(ConfigService)
 	const logger = new Logger()
+
+	const secret = config.get('COOKIES_SECRET')
+	app.use(cookieParser(secret))
 
 	app.useGlobalPipes(new ValidationPipe(getValidationPipesConfig()))
 	app.useGlobalFilters(new GrpcExceptionFilter())

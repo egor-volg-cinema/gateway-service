@@ -22,6 +22,7 @@
   "dependencies": {
     "@egorcolgcinema/contracts": "^1.0.6",
     "@egorcolgcinema/core": "^1.0.5",
+    "@egorcolgcinema/passport": "^1.0.4",
     "@grpc/grpc-js": "^1.14.3",
     "@grpc/proto-loader": "^0.8.0",
     "@nestjs/common": "^11.0.1",

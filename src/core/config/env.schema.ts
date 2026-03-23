@@ -24,7 +24,9 @@ export const envSchema = z.object({
 
 	COOKIES_SECRET: z.string().min(1),
 
-	COOKIES_DOMAIN: z.string().default('localhost')
+	COOKIES_DOMAIN: z.string().default('localhost'),
+
+	PASSPORT_SECRET_KEY: z.string().min(1)
 })
 
 export type Env = z.infer<typeof envSchema>

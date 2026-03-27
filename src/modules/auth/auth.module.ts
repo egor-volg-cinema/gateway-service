@@ -3,9 +3,10 @@ import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 
-import { AuthClientGrpc } from './auth.grpc'
+import { AccountModule } from '../account/account.module'
 
 import { AuthController } from './auth.controller'
+import { AuthClientGrpc } from './auth.grpc'
 
 const grpcLoader = {
 	keepCase: false,
@@ -31,7 +32,8 @@ const grpcLoader = {
 				}),
 				inject: [ConfigService]
 			}
-		])
+		]),
+		AccountModule 	
 	],
 	controllers: [AuthController],
 	providers: [AuthClientGrpc]

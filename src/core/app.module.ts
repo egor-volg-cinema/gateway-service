@@ -1,6 +1,7 @@
 import { PassportModule } from '@egorcolgcinema/passport'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { AccountModule } from 'src/modules/account/account.module'
 import { AuthModule } from 'src/modules/auth/auth.module'
 
 import { AppController } from './app.controller'
@@ -14,7 +15,8 @@ import { getPassportConfig, validateEnv } from './config'
 			useFactory: getPassportConfig,
 			inject: [ConfigService]
 		}),
-		AuthModule
+		AuthModule,
+		AccountModule
 	],
 	controllers: [AppController],
 	providers: [AppService]

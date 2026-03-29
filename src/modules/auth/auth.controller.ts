@@ -16,6 +16,7 @@ import { CurrentUser, Protected } from 'src/shared/decorators'
 
 import { AuthClientGrpc } from './auth.grpc'
 import { SendOtpRequest, VerifyOtpRequest } from './dto'
+import { Role } from '@egorcolgcinema/contracts/gen/account'
 
 @Controller('auth')
 export class AuthController {
@@ -112,7 +113,7 @@ export class AuthController {
 	}
 
 	@ApiBearerAuth()
-	@Protected()
+	 
 	@Get('me')
 	public async me(@CurrentUser() userId: string) {
 		return { ok: true, userId: userId }

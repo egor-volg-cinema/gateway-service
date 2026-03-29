@@ -1,7 +1,11 @@
 import {
 	AccountServiceClient,
 	GetAccountRequest
+<<<<<<< HEAD
 } from '@egorcolgcinema/contracts/gen/account'
+=======
+} from '@egorcolgcinema/contracts/gen/Account'
+>>>>>>> e3fd516a0513942d66b50b4e9d5b430446864dd3
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
 import type { ClientGrpc } from '@nestjs/microservices'
 

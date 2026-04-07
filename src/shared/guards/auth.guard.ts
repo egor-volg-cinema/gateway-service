@@ -10,6 +10,7 @@ import type { Request } from 'express'
 @Injectable()
 export class AuthGuard implements CanActivate {
 	public constructor(private readonly passportService: PassportService) {}
+
 	public canActivate(context: ExecutionContext): boolean {
 		const request = context.switchToHttp().getRequest()
 

@@ -26,14 +26,14 @@ const grpcLoader = {
 					options: {
 						package: 'auth.v1',
 						protoPath: PROTO_PATH.AUTH,
-						url: configService.get('AUTH_GRPC_URL'),
+						url: configService.getOrThrow<string>('AUTH_GRPC_URL'),
 						loader: grpcLoader
 					}
 				}),
 				inject: [ConfigService]
 			}
 		]),
-		AccountModule 	
+		AccountModule
 	],
 	controllers: [AuthController],
 	providers: [AuthClientGrpc]

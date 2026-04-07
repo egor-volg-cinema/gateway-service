@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 import { Role } from '@egorcolgcinema/contracts/gen/account'
-=======
-import { Role } from '@egorcolgcinema/contracts/gen/Account'
->>>>>>> e3fd516a0513942d66b50b4e9d5b430446864dd3
 import {
 	CanActivate,
 	ExecutionContext,
 	ForbiddenException,
-	NotFoundException
+	Injectable
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { lastValueFrom } from 'rxjs'
@@ -15,6 +11,7 @@ import { AccountClientGrpc } from 'src/modules/account/account.grpc'
 
 import { ROLES_KEY } from '../decorators'
 
+@Injectable()
 export class RolesGuard implements CanActivate {
 	public constructor(
 		private readonly reflector: Reflector,
@@ -37,8 +34,6 @@ export class RolesGuard implements CanActivate {
 		const account = await lastValueFrom(
 			this.accountClient.getAccount({ id: user.id })
 		)
-
-		if (!account) throw new NotFoundException('Account not found')
 
 		if (!required.includes(account.role))
 			throw new ForbiddenException(

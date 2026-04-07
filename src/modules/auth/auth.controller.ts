@@ -16,7 +16,6 @@ import { CurrentUser, Protected } from 'src/shared/decorators'
 
 import { AuthClientGrpc } from './auth.grpc'
 import { SendOtpRequest, VerifyOtpRequest } from './dto'
-import { Role } from '@egorcolgcinema/contracts/gen/account'
 
 @Controller('auth')
 export class AuthController {
@@ -32,7 +31,7 @@ export class AuthController {
 	})
 	@Post('otp/send')
 	@HttpCode(HttpStatus.OK)
-	public async sendOtp(@Body() dto: SendOtpRequest) {
+	public sendOtp(@Body() dto: SendOtpRequest) {
 		return this.client.sendOtp(dto)
 	}
 
@@ -97,7 +96,7 @@ export class AuthController {
 	})
 	@Post('logout')
 	@HttpCode(HttpStatus.OK)
-	public async logout(@Res({ passthrough: true }) res: Response) {
+	public logout(@Res({ passthrough: true }) res: Response) {
 		res.clearCookie('refresh_token', {
 			httpOnly: true,
 			secure:
@@ -113,9 +112,9 @@ export class AuthController {
 	}
 
 	@ApiBearerAuth()
-	 
+	@Protected('ADMIN')
 	@Get('me')
-	public async me(@CurrentUser() userId: string) {
+	public me(@CurrentUser() userId: string) {
 		return { ok: true, userId: userId }
 	}
 }

@@ -73,7 +73,7 @@ export class AuthController {
 		@Req() req: Request,
 		@Res({ passthrough: true }) res: Response
 	) {
-		const refreshToken = req.cookies.refresh_token
+		const refreshToken = req.cookies.refresh_token as string
 		const { accessToken, refreshToken: newRefreshToken } =
 			await lastValueFrom(this.client.refresh({ refreshToken }))
 
@@ -112,7 +112,7 @@ export class AuthController {
 	}
 
 	@ApiBearerAuth()
-	@Protected('ADMIN')
+	@Protected()
 	@Get('me')
 	public me(@CurrentUser() userId: string) {
 		return { ok: true, userId: userId }

@@ -15,7 +15,7 @@ async function bootstrap() {
 	const config = app.get(ConfigService)
 	const logger = new Logger()
 
-	const secret = config.get('COOKIES_SECRET')
+	const secret = config.getOrThrow<string>('COOKIES_SECRET')
 	app.use(cookieParser(secret))
 
 	app.useGlobalPipes(new ValidationPipe(getValidationPipesConfig()))
@@ -35,8 +35,8 @@ async function bootstrap() {
 		yamlDocumentUrl: '/openapi.yaml'
 	})
 
-	const port = config.get('HTTP_PORT')
-	const host = config.get('HTTP_HOST')
+	const port = config.getOrThrow<string>('HTTP_PORT')
+	const host = config.getOrThrow<string>('HTTP_HOST')
 
 	await app.listen(port)
 

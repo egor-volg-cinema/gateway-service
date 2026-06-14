@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 
+import { AccountController } from './account.controller'
 import { AccountClientGrpc } from './account.grpc'
 
 const grpcLoader = {
@@ -33,6 +34,7 @@ const grpcLoader = {
 			}
 		])
 	],
+	controllers: [AccountController],
 	providers: [AccountClientGrpc],
 	exports: [AccountClientGrpc]
 })

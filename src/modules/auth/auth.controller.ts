@@ -15,7 +15,7 @@ import { lastValueFrom } from 'rxjs'
 import { CurrentUser, Protected } from 'src/shared/decorators'
 
 import { AuthClientGrpc } from './auth.grpc'
-import { SendOtpRequest, VerifyOtpRequest } from './dto'
+import { SendOtpRequest, TelegramVerifyRequest, VerifyOtpRequest } from './dto'
 
 @Controller('auth')
 export class AuthController {
@@ -116,5 +116,18 @@ export class AuthController {
 	@Get('me')
 	public me(@CurrentUser() userId: string) {
 		return { ok: true, userId: userId }
+	}
+
+	@Get('telegram')
+	@HttpCode(HttpStatus.OK)
+	public async telegramInit() {
+		return this.client.telegramInit()
+	}
+
+	@Post('telegram/verify')
+	@HttpCode(HttpStatus.OK)
+	public async telegramVerify(@Body() dto: TelegramVerifyRequest) {
+		const query = JSON.parse(atob(dto.telegramAuthResult))
+		console.log('query:', query)
 	}
 }

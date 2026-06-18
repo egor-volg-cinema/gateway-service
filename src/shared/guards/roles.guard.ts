@@ -1,4 +1,5 @@
 import { Role } from '@egorcolgcinema/contracts/gen/account'
+import { AccountClientGrpc } from '@modules/account/account.grpc'
 import {
 	CanActivate,
 	ExecutionContext,
@@ -7,7 +8,6 @@ import {
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { lastValueFrom } from 'rxjs'
-import { AccountClientGrpc } from 'src/modules/account/account.grpc'
 
 import { ROLES_KEY } from '../decorators'
 

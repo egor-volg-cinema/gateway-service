@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
+import { CurrentUser, Protected } from '@shared/decorators'
 import type { Request, Response } from 'express'
 import { lastValueFrom } from 'rxjs'
-import { CurrentUser, Protected } from 'src/shared/decorators'
 
 import { AuthClientGrpc } from './auth.grpc'
 import { SendOtpRequest, TelegramVerifyRequest, VerifyOtpRequest } from './dto'

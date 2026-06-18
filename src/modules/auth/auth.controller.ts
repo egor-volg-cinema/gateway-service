@@ -6,7 +6,8 @@ import {
 	HttpStatus,
 	Post,
 	Req,
-	Res
+	Res,
+	UnauthorizedException
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
@@ -126,8 +127,33 @@ export class AuthController {
 
 	@Post('telegram/verify')
 	@HttpCode(HttpStatus.OK)
-	public async telegramVerify(@Body() dto: TelegramVerifyRequest) {
+	public async telegramVerify(
+		@Body() dto: TelegramVerifyRequest,
+		@Res({ passthrough: true }) res: Response
+	) {
 		const query = JSON.parse(atob(dto.telegramAuthResult))
-		console.log('query:', query)
+
+		const result = await lastValueFrom(
+			this.client.telegramVerify({ query })
+		)
+
+		if ('url' in result && result.url) return result
+
+		if (result.accessToken && result.refreshToken) {
+			const { refreshToken, accessToken } = result
+
+			res.cookie('refresh_token', refreshToken, {
+				httpOnly: true,
+				secure:
+					this.configService.getOrThrow<string>('NODE_ENV') !==
+					'development',
+				domain: this.configService.getOrThrow<string>('COOKIES_DOMAIN'),
+				sameSite: 'lax',
+				maxAge: 30 * 24 * 60 * 60 * 1000
+			})
+			return { accessToken }
+		}
+
+		throw new UnauthorizedException('Invalid Telegram login response')
 	}
 }

@@ -1,6 +1,7 @@
 import {
 	AuthServiceClient,
 	RefreshRequest,
+	TelegramVerifyRequest,
 	VerifyOtpRequest
 } from '@egorcolgcinema/contracts/gen/auth'
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
@@ -35,5 +36,9 @@ export class AuthClientGrpc implements OnModuleInit {
 
 	public telegramInit() {
 		return this.authService.telegramInit({})
+	}
+
+	public telegramVerify(request: TelegramVerifyRequest) {
+		return this.authService.telegramVerify(request)
 	}
 }

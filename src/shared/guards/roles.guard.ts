@@ -1,4 +1,4 @@
-import { Role } from '@egorcolgcinema/contracts/gen/account'
+import type { Role } from '@teacinema/contracts/gen/ts/account'
 import { AccountClientGrpc } from '@modules/account/account.grpc'
 import {
 	CanActivate,

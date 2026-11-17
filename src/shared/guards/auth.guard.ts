@@ -1,4 +1,4 @@
-import { PassportService } from '@egorcolgcinema/passport'
+import { PassportService } from '@teacinema/passport'
 import {
 	CanActivate,
 	ExecutionContext,

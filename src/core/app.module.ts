@@ -1,4 +1,4 @@
-import { PassportModule } from '@egorcolgcinema/passport'
+import { PassportModule } from '@teacinema/passport'
 import { AccountModule } from '@modules/account/account.module'
 import { AuthModule } from '@modules/auth/auth.module'
 import { Module } from '@nestjs/common'

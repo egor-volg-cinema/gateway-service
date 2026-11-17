@@ -1,11 +1,11 @@
-import {
+import type {
 	AccountServiceClient,
 	ConfirmEmailChangeRequest,
 	ConfirmPhoneChangeRequest,
 	GetAccountRequest,
 	InitEmailChangeRequest,
 	InitPhoneChangeRequest
-} from '@egorcolgcinema/contracts/gen/account'
+} from '@teacinema/contracts/gen/ts/account'
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
 import type { ClientGrpc } from '@nestjs/microservices'
 

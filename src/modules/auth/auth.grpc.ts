@@ -1,10 +1,10 @@
-import {
+import type {
 	AuthServiceClient,
 	RefreshRequest,
 	TelegramConsumeRequest,
 	TelegramVerifyRequest,
 	VerifyOtpRequest
-} from '@egorcolgcinema/contracts/gen/auth'
+} from '@teacinema/contracts/gen/ts/auth'
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
 import type { ClientGrpc } from '@nestjs/microservices'
 

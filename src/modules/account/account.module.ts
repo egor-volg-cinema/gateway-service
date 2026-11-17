@@ -1,4 +1,4 @@
-import { PROTO_PATH } from '@egorcolgcinema/contracts'
+import { PROTO_PATHS } from '@teacinema/contracts'
 import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ClientsModule, Transport } from '@nestjs/microservices'
@@ -23,7 +23,7 @@ const grpcLoader = {
 					transport: Transport.GRPC,
 					options: {
 						package: 'account.v1',
-						protoPath: PROTO_PATH.ACCOUNT,
+						protoPath: PROTO_PATHS.ACCOUNT,
 						url: configService.getOrThrow<string>(
 							'ACCOUNT_GRPC_URL'
 						),

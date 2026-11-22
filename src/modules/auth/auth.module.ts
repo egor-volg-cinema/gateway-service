@@ -1,7 +1,7 @@
-import { PROTO_PATHS } from '@teacinema/contracts'
 import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ClientsModule, Transport } from '@nestjs/microservices'
+import { PROTO_PATHS } from '@teacinema/contracts'
 
 import { AccountModule } from '../account/account.module'
 

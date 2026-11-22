@@ -1,4 +1,3 @@
-import type { Role } from '@teacinema/contracts/gen/ts/account'
 import { AccountClientGrpc } from '@modules/account/account.grpc'
 import {
 	CanActivate,
@@ -7,6 +6,7 @@ import {
 	Injectable
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import type { Role } from '@teacinema/contracts/gen/ts/account'
 import { lastValueFrom } from 'rxjs'
 
 import { ROLES_KEY } from '../decorators'

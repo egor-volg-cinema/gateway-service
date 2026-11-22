@@ -1,3 +1,5 @@
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
+import type { ClientGrpc } from '@nestjs/microservices'
 import type {
 	AuthServiceClient,
 	RefreshRequest,
@@ -5,8 +7,6 @@ import type {
 	TelegramVerifyRequest,
 	VerifyOtpRequest
 } from '@teacinema/contracts/gen/ts/auth'
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
-import type { ClientGrpc } from '@nestjs/microservices'
 
 import { SendOtpRequest } from './dto'
 

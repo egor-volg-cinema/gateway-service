@@ -1,3 +1,5 @@
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
+import type { ClientGrpc } from '@nestjs/microservices'
 import type {
 	AccountServiceClient,
 	ConfirmEmailChangeRequest,
@@ -6,8 +8,6 @@ import type {
 	InitEmailChangeRequest,
 	InitPhoneChangeRequest
 } from '@teacinema/contracts/gen/ts/account'
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
-import type { ClientGrpc } from '@nestjs/microservices'
 
 @Injectable()
 export class AccountClientGrpc implements OnModuleInit {

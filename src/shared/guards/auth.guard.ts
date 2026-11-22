@@ -1,10 +1,10 @@
-import { PassportService } from '@teacinema/passport'
 import {
 	CanActivate,
 	ExecutionContext,
 	Injectable,
 	UnauthorizedException
 } from '@nestjs/common'
+import { PassportService } from '@teacinema/passport'
 import type { Request } from 'express'
 
 @Injectable()

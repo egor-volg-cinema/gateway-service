@@ -1,5 +1,6 @@
 import { AccountModule } from '@modules/account/account.module'
 import { AuthModule } from '@modules/auth/auth.module'
+import { UsersModule } from '@modules/users/users.module'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { PassportModule } from '@teacinema/passport'
@@ -16,7 +17,8 @@ import { getPassportConfig, validateEnv } from './config'
 			inject: [ConfigService]
 		}),
 		AuthModule,
-		AccountModule
+		AccountModule,
+		UsersModule
 	],
 	controllers: [AppController],
 	providers: [AppService]

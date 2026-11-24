@@ -30,6 +30,14 @@ export const envSchema = z.object({
 		)
 		.default('localhost:50051'),
 
+	USERS_GRPC_URL: z
+		.string()
+		.regex(
+			/^[\w.-]+:\d+$/,
+			'Must be in format host:port (e.g., localhost:50051)'
+		)
+		.default('localhost:50551'),
+
 	COOKIES_SECRET: z.string().min(1),
 
 	COOKIES_DOMAIN: z.string().default('localhost'),

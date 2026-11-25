@@ -1,40 +1,11 @@
 import { Module } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { ClientsModule, Transport } from '@nestjs/microservices'
-import { PROTO_PATHS } from '@teacinema/contracts'
-
-import { AccountModule } from '../account/account.module'
+import { GrpcModule } from '@teacinema/common'
 
 import { AuthController } from './auth.controller'
 import { AuthClientGrpc } from './auth.grpc'
 
-const grpcLoader = {
-	keepCase: false,
-	longs: String,
-	enums: String,
-	defaults: true,
-	oneofs: true
-}
-
 @Module({
-	imports: [
-		ClientsModule.registerAsync([
-			{
-				name: 'AUTH_PACKAGE',
-				useFactory: (configService: ConfigService) => ({
-					transport: Transport.GRPC,
-					options: {
-						package: 'auth.v1',
-						protoPath: PROTO_PATHS.AUTH,
-						url: configService.getOrThrow<string>('AUTH_GRPC_URL'),
-						loader: grpcLoader
-					}
-				}),
-				inject: [ConfigService]
-			}
-		]),
-		AccountModule
-	],
+	imports: [GrpcModule.register(['AUTH_PACKAGE'])],
 	controllers: [AuthController],
 	providers: [AuthClientGrpc]
 })

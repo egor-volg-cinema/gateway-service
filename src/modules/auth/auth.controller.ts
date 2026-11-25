@@ -12,6 +12,7 @@ import {
 import { ConfigService } from '@nestjs/config'
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
 import { CurrentUser, Protected } from '@shared/decorators'
+import { TelegramVerifyResponse } from '@teacinema/contracts/gen/ts/auth'
 import type { Request, Response } from 'express'
 import { lastValueFrom } from 'rxjs'
 
@@ -38,7 +39,7 @@ export class AuthController {
 	@Post('otp/send')
 	@HttpCode(HttpStatus.OK)
 	public sendOtp(@Body() dto: SendOtpRequest) {
-		return this.client.sendOtp(dto)
+		return this.client.service.sendOtp(dto)
 	}
 
 	@ApiOperation({
@@ -53,7 +54,7 @@ export class AuthController {
 		@Res({ passthrough: true }) res: Response
 	) {
 		const { accessToken, refreshToken } = await lastValueFrom(
-			this.client.verifyOtp(dto)
+			this.client.service.verifyOtp(dto)
 		)
 
 		res.cookie('refresh_token', refreshToken, {
@@ -81,7 +82,7 @@ export class AuthController {
 	) {
 		const refreshToken = req.cookies.refresh_token as string
 		const { accessToken, refreshToken: newRefreshToken } =
-			await lastValueFrom(this.client.refresh({ refreshToken }))
+			await lastValueFrom(this.client.service.refresh({ refreshToken }))
 
 		res.cookie('refresh_token', newRefreshToken, {
 			httpOnly: true,
@@ -126,8 +127,8 @@ export class AuthController {
 
 	@Get('telegram')
 	@HttpCode(HttpStatus.OK)
-	public async telegramInit() {
-		return this.client.telegramInit()
+	public telegramInit() {
+		return this.client.service.telegramInit({})
 	}
 
 	@Post('telegram/verify')
@@ -136,10 +137,16 @@ export class AuthController {
 		@Body() dto: TelegramVerifyRequest,
 		@Res({ passthrough: true }) res: Response
 	) {
-		const query = JSON.parse(atob(dto.telegramAuthResult))
+		const parsed = JSON.parse(atob(dto.telegramAuthResult)) as Record<
+			string,
+			unknown
+		>
+		const query = Object.fromEntries(
+			Object.entries(parsed).map(([key, value]) => [key, String(value)])
+		)
 
-		const result = await lastValueFrom(
-			this.client.telegramVerify({ query })
+		const result: TelegramVerifyResponse = await lastValueFrom(
+			this.client.service.telegramVerify({ query })
 		)
 
 		if ('url' in result && result.url) return result
@@ -170,7 +177,7 @@ export class AuthController {
 	) {
 		const { sessionId } = dto
 		const { accessToken, refreshToken } = await lastValueFrom(
-			this.client.telegramConsume({ sessionId })
+			this.client.service.telegramConsume({ sessionId })
 		)
 		res.cookie('refresh_token', refreshToken, {
 			httpOnly: true,

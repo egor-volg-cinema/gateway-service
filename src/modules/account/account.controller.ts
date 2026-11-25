@@ -28,7 +28,7 @@ export class AccountController {
 		@Body() dto: InitEmailChangeRequest,
 		@CurrentUser() userId: string
 	) {
-		return this.client.initEmailChange({ ...dto, userId })
+		return this.client.call('initEmailChange', { ...dto, userId })
 	}
 
 	@ApiOperation({
@@ -44,7 +44,7 @@ export class AccountController {
 		@Body() dto: ConfirmEmailChangeRequest,
 		@CurrentUser() userId: string
 	) {
-		return this.client.confirmEmailChange({ ...dto, userId })
+		return this.client.call('confirmEmailChange', { ...dto, userId })
 	}
 
 	// Phone change endpoints
@@ -61,7 +61,7 @@ export class AccountController {
 		@Body() dto: InitPhoneChangeRequest,
 		@CurrentUser() userId: string
 	) {
-		return this.client.initPhoneChange({ ...dto, userId })
+		return this.client.call('initPhoneChange', { ...dto, userId })
 	}
 
 	@ApiOperation({
@@ -77,6 +77,6 @@ export class AccountController {
 		@Body() dto: ConfirmPhoneChangeRequest,
 		@CurrentUser() userId: string
 	) {
-		return this.client.confirmPhoneChange({ ...dto, userId })
+		return this.client.call('confirmPhoneChange', { ...dto, userId })
 	}
 }

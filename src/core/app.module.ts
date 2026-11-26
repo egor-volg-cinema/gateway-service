@@ -11,7 +11,15 @@ import { getPassportConfig, validateEnv } from './config'
 
 @Module({
 	imports: [
-		ConfigModule.forRoot({ validate: validateEnv, isGlobal: true }),
+		ConfigModule.forRoot({
+			validate: validateEnv,
+			isGlobal: true,
+			envFilePath: [
+				`.env.${process.env.NODE_ENV}.local`,
+				`.env.${process.env.NODE_ENV}`,
+				'.env'
+			]
+		}),
 		PassportModule.registerAsync({
 			useFactory: getPassportConfig,
 			inject: [ConfigService]

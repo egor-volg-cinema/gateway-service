@@ -1,0 +1,22 @@
+services:
+    gateway-service:
+        container_name: gateway-service
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        env_file:
+            - .env.prod.local
+        ports:
+            - '4000:4000'
+        healthcheck:
+            test: ['CMD', 'curl', '-f', 'http://localhost:4000/health']
+            interval: 30s
+            timeout: 3s
+            retries: 5
+        networks:
+            - cinema-network
+networks:
+    cinema-network:
+        external: true
+        name: docker_cinema-network

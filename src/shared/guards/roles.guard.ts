@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import type { Role } from '@teacinema/contracts/gen/ts/account'
-import { lastValueFrom } from 'rxjs'
 
 import { ROLES_KEY } from '../decorators'
 
@@ -26,14 +25,16 @@ export class RolesGuard implements CanActivate {
 
 		if (!required || required.length === 0) return true
 
-		const request = context.switchToHttp().getRequest()
+		const request = context
+			.switchToHttp()
+			.getRequest<{ user?: { id: string } }>()
 		const user = request.user
 
 		if (!user) throw new ForbiddenException('User context missing')
 
-		const account = await lastValueFrom(
-			this.accountClient.getAccount({ id: user.id })
-		)
+		const account = await this.accountClient.call('getAccount', {
+			id: user.id
+		})
 
 		if (!required.includes(account.role))
 			throw new ForbiddenException(

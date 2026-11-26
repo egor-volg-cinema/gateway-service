@@ -1,39 +1,11 @@
 import { Module } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { ClientsModule, Transport } from '@nestjs/microservices'
-import { PROTO_PATHS } from '@teacinema/contracts'
+import { GrpcModule } from '@teacinema/common'
 
 import { AccountController } from './account.controller'
 import { AccountClientGrpc } from './account.grpc'
 
-const grpcLoader = {
-	keepCase: false,
-	longs: String,
-	enums: String,
-	defaults: true,
-	oneofs: true
-}
-
 @Module({
-	imports: [
-		ClientsModule.registerAsync([
-			{
-				name: 'ACCOUNT_PACKAGE',
-				useFactory: (configService: ConfigService) => ({
-					transport: Transport.GRPC,
-					options: {
-						package: 'account.v1',
-						protoPath: PROTO_PATHS.ACCOUNT,
-						url: configService.getOrThrow<string>(
-							'ACCOUNT_GRPC_URL'
-						),
-						loader: grpcLoader
-					}
-				}),
-				inject: [ConfigService]
-			}
-		])
-	],
+	imports: [GrpcModule.register(['ACCOUNT_PACKAGE'])],
 	controllers: [AccountController],
 	providers: [AccountClientGrpc],
 	exports: [AccountClientGrpc]

@@ -1,9 +1,7 @@
 import { z } from 'zod'
 
 export const envSchema = z.object({
-	NODE_ENV: z
-		.enum(['development', 'production', 'test'])
-		.default('development'),
+	NODE_ENV: z.enum(['dev', 'prod', 'test']).default('dev'),
 
 	HTTP_PORT: z.coerce.number().min(1).max(65535).default(4000),
 

@@ -33,6 +33,7 @@ import { HttpMetricsInterceptor } from './http-metrics.interceptor'
 			help: 'Total number of HTTP requests',
 			labelNames: ['service', 'method', 'route', 'status_code']
 		}),
+		HttpMetricsInterceptor,
 		{
 			provide: 'APP_INTERCEPTOR',
 			useClass: HttpMetricsInterceptor

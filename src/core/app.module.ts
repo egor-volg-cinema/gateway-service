@@ -3,6 +3,7 @@ import { AuthModule } from '@modules/auth/auth.module'
 import { UsersModule } from '@modules/users/users.module'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ObservabilityModule } from '@observability/observability.module'
 import { PassportModule } from '@teacinema/passport'
 
 import { AppController } from './app.controller'
@@ -24,6 +25,7 @@ import { getPassportConfig, validateEnv } from './config'
 			useFactory: getPassportConfig,
 			inject: [ConfigService]
 		}),
+		ObservabilityModule,
 		AuthModule,
 		AccountModule,
 		UsersModule

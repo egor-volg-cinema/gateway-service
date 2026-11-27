@@ -42,6 +42,7 @@ async function bootstrap() {
 
 	logger.log(`Server running on ${host}`)
 	logger.log(`Swagger running on ${host}/docs`)
+	logger.log(`Prometheus metrics on ${host}/metrics`)
 }
 
 bootstrap()
